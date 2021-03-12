@@ -1,6 +1,9 @@
 <script>
-  import { writable } from "svelte/store";
-  
+import { spring, tweened } from "svelte/motion";
+
+import { writable } from "svelte/store";
+
+
   let cards = writable([
     {
       id: "c1",
@@ -19,7 +22,7 @@
       color: "orange"
     }
   ]);
-  let cardPos = writable([
+  let cardPos = spring([
     {
       rotation: 10,
       dx: 0
@@ -36,7 +39,11 @@
       rotation: -25,
       dx: 0
     }
-  ]);
+  ], {
+    stiffness: 0.05,
+    dumping: 0.9,
+    precision: 0.001
+  });
 
   function discard(index) {
     cardPos.update(items => {
@@ -73,6 +80,7 @@
 
 <div class="page">
   <div class="cards">
+    <!-- loop on cards -->
     {#each $cards as card, i (card.id)}
       <div
         class="card"
