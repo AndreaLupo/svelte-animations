@@ -4,6 +4,7 @@
     import {cubicIn} from "svelte/easing";
     import {fade, scale, slide, fly} from "svelte/transition";
     import Spring from "./Spring.svelte";
+    import { flip } from "svelte/animate";
 
     let boxInput = '';
     let showCards = false;
@@ -22,7 +23,7 @@
     let boxes = [];
 
     function addBox() {
-        boxes = [...boxes, boxInput.value];
+        boxes = [boxInput.value, ...boxes];
     }
 
     function discard(box) {
@@ -48,7 +49,8 @@
             on:introstart={() => {console.log('Transition intro start')}}
             on:introend={() => {console.log('Transition intro end')}}
             on:outrostart={() => {console.log('Transition outro start')}}
-            on:outroend={() => {console.log('Transition outro end')}}>
+            on:outroend={() => {console.log('Transition outro end')}}
+            animate:flip={{duration:300}}>
             {box}
         </div>
     {/each}
